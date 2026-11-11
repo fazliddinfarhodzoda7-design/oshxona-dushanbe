@@ -3,172 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ошхона Душанбе — Фармоиши хӯрок</title>
+    <title>Ошхона Душанбе</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
 
-    <!-- Header -->
-    <header class="bg-emerald-600 text-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <i class="fa-solid fa-utensils text-2xl"></i>
-                <span class="text-xl font-bold">Ошхона Душанбе 🇹🇯</span>
-            </div>
-            <div class="flex items-center space-x-4">
-                <button onclick="toggleCart()" class="bg-emerald-700 hover:bg-emerald-800 px-4 py-2 rounded-lg flex items-center space-x-2 transition">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span>Сабат (<span id="cart-count">0</span>)</span>
-                </button>
+    <!-- Header / Сарлавҳа -->
+    <header class="bg-emerald-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold">🍲 Ошхона Душанбе</h1>
+            <div class="flex items-center space-x-2 bg-emerald-700 px-3 py-1.5 rounded-full text-sm">
+                <span>🛒 Сабад:</span>
+                <span id="cart-count" class="font-bold">0</span>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8">
+    <main class="container mx-auto px-4 py-6 max-w-4xl">
         
         <!-- Hero Section -->
-        <div class="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl p-6 md:p-12 text-white mb-8 shadow-lg">
-            <h1 class="text-3xl md:text-5xl font-extrabold mb-4">Беҳтарин таомҳои Душанбе дар хонаи шумо!</h1>
-            <p class="text-lg mb-6 opacity-90">Қурутоб, оши палов, манту ва фаст-фуд бо расонидани тез ва қулай.</p>
-            
-            <!-- Gemini AI Assistant Box -->
-            <div class="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20 max-w-xl">
-                <h3 class="font-bold text-lg mb-2 flex items-center space-x-2">
-                    <i class="fa-solid fa-robot"></i>
-                    <span>Ёрдамчии Сунъӣ (Gemini AI): Чӣ фармоиш диҳем?</span>
-                </h3>
-                <div class="flex space-x-2">
-                    <input type="text" id="ai-prompt" placeholder="Масалан: Барои меҳмонон кадом таом беҳтар аст?" class="flex-grow px-3 py-2 rounded-lg text-gray-800 focus:outline-none">
-                    <button onclick="askGemini()" class="bg-amber-500 hover:bg-amber-600 px-4 py-2 rounded-lg font-bold transition">Маслиҳат</button>
+        <div class="bg-white p-6 rounded-2xl shadow-md mb-8 text-center">
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">Беҳтарин таомҳои Душанбе дар хонаи шумо!</h2>
+            <p class="text-sm text-gray-600">Босуръат ва бомазза фармоиш диҳед.</p>
+        </div>
+
+        <!-- Менюи таомҳо -->
+        <h3 class="text-xl font-bold mb-4 text-gray-800">Менюи рӯз</h3>
+        <div id="menu-container" class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+            <!-- Динамикӣ бо JavaScript пур карда мешавад -->
+        </div>
+
+        <!-- Ҳолати фармоиш (Timeline) -->
+        <div class="bg-white p-6 rounded-2xl shadow-md mb-8">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Ҳолати фармоиш</h3>
+            <div class="relative border-l-2 border-emerald-500 ml-3 pl-6 space-y-6">
+                <div class="relative">
+                    <div class="absolute -left-[31px] top-0 bg-emerald-500 h-4 w-4 rounded-full border-4 border-white shadow"></div>
+                    <p class="text-sm font-semibold text-gray-900">Ошхона заказро қабул кард</p>
+                    <p class="text-xs text-gray-500">Фармоиш тасдиқ шуд ва ба омодасозӣ оғоз кардем</p>
                 </div>
-                <div id="ai-response" class="mt-3 text-sm italic hidden bg-black/20 p-2 rounded"></div>
+                <div class="relative">
+                    <div class="absolute -left-[31px] top-0 bg-gray-300 h-4 w-4 rounded-full border-4 border-white shadow"></div>
+                    <p class="text-sm font-semibold text-gray-700">Заказ дар роҳ аст</p>
+                    <p class="text-xs text-gray-400">Курьер фармоиши шуморо ба суроға расонида истодааст</p>
+                </div>
             </div>
         </div>
 
-        <!-- Menu Grid -->
-        <h2 class="text-2xl font-bold mb-6">Менюи рӯз</h2>
-        <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Items populated by JS -->
+        <!-- Суроғаи ошхона -->
+        <div class="bg-white p-6 rounded-2xl shadow-md">
+            <div class="flex items-start space-x-3">
+                <div class="text-emerald-600 text-xl mt-1">📍</div>
+                <div>
+                    <h3 class="text-base font-bold text-gray-900 mb-1">Суроғаи ошхона</h3>
+                    <p class="text-sm text-gray-700">ш. Душанбе, просп. Саади Шерози, 39/2 (район Моҳи нав)</p>
+                    <p class="text-xs text-gray-500 mt-2">⏱ Вақти корӣ: 09:00 - 19:00 | Якшанбе - Истироҳат</p>
+                </div>
+            </div>
         </div>
+
     </main>
 
-    <!-- Cart Sidebar -->
-    <div id="cart-modal" class="fixed inset-0 bg-black/50 hidden z-50 flex justify-end">
-        <div class="bg-white w-full max-w-md h-full p-6 flex flex-col justify-between shadow-xl">
-            <div>
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold">Сабади фармоиш</h3>
-                    <button onclick="toggleCart()" class="text-gray-500 hover:text-black text-xl"><i class="fa-solid fa-xmark"></i></button>
-                </div>
-                <div id="cart-items" class="space-y-4 overflow-y-auto max-h-[60vh]">
-                    <!-- Cart items -->
-                </div>
-            </div>
-            <div class="border-t pt-4">
-                <div class="flex justify-between font-bold text-lg mb-4">
-                    <span>Ҷамъ:</span>
-                    <span id="cart-total">0 сомонӣ</span>
-                </div>
-                <button onclick="checkout()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl font-bold transition">Фармоиш додан</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Script -->
+    <!-- JavaScript Логика -->
     <script>
         const menuItems = [
-            { id: 1, name: "Оши Палов (Шаҳрӣ)", price: 45, image: "https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?w=500" },
-            { id: 2, name: "Қурутоби Аслӣ", price: 40, image: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=500" },
-            { id: 3, name: "Мантуи Маркази", price: 35, image: "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=500" },
-            { id: 4, name: "Шашлики Гов", price: 25, image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500" },
-            { id: 5, name: "Самбӯсаи Танӯрӣ", price: 8, image: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=500" },
-            { id: 6, name: "Лимонади Ситора", price: 15, image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500" }
+            { id: 1, name: "Оши Палов (Шаҳрӣ)", price: 45, available: true, image: "https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?w=500" },
+            { id: 2, name: "Қурутоби Аслӣ", price: 40, available: true, image: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=500" },
+            { id: 3, name: "Мантуи Марказӣ", price: 35, available: false, image: "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=500" },
+            { id: 4, name: "Шашлики Гов", price: 25, available: true, image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500" },
+            { id: 5, name: "Самбӯсаи Танӯрӣ", price: 8, available: true, image: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=500" },
+            { id: 6, name: "Хом Шӯрбо", price: 22, available: true, image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500" },
+            { id: 7, name: "Шакароб", price: 35, available: true, image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500" }
         ];
 
         let cart = [];
 
         function renderMenu() {
-            const grid = document.getElementById('menu-grid');
-            grid.innerHTML = menuItems.map(item => `
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
-                    <img src="${item.image}" alt="${item.name}" class="w-full h-48 object-cover">
-                    <div class="p-4">
-                        <h3 class="font-bold text-lg mb-1">${item.name}</h3>
-                        <p class="text-emerald-600 font-semibold mb-4">${item.price} сомонӣ</p>
-                        <button onclick="addToCart(${item.id})" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-2 rounded-lg font-medium transition">Илова ба сабат</button>
+            const container = document.getElementById('menu-container');
+            container.innerHTML = '';
+
+            menuItems.forEach(item => {
+                const statusBadge = item.available 
+                    ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 mb-2">🟢 Омода аст</span>`
+                    : `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 mb-2">🔴 Омода нест</span>`;
+
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl shadow-md overflow-hidden flex flex-col justify-between";
+                card.innerHTML = `
+                    <div>
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-40 object-cover">
+                        <div class="p-4">
+                            ${statusBadge}
+                            <h4 class="font-bold text-lg text-gray-800">${item.name}</h4>
+                            <p class="text-emerald-600 font-semibold mt-1">${item.price} сомонӣ</p>
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                    <div class="p-4 pt-0">
+                        <button onclick="addToCart(${item.id})" class="w-full bg-emerald-600 text-white py-2 rounded-xl text-sm font-medium hover:bg-emerald-700 transition">
+                            Илова ба сабад
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
         }
 
         function addToCart(id) {
             const item = menuItems.find(i => i.id === id);
-            const existing = cart.find(i => i.id === id);
-            if (existing) {
-                existing.qty++;
+            if(item && item.available) {
+                cart.push(item);
+                document.getElementById('cart-count').innerText = cart.length;
             } else {
-                cart.push({ ...item, qty: 1 });
-            }
-            updateCart();
-        }
-
-        function updateCart() {
-            document.getElementById('cart-count').innerText = cart.reduce((sum, i) => sum + i.qty, 0);
-            const container = document.getElementById('cart-items');
-            container.innerHTML = cart.map(i => `
-                <div class="flex justify-between items-center border-b pb-2">
-                    <div>
-                        <h4 class="font-bold">${i.name}</h4>
-                        <p class="text-sm text-gray-500">${i.price} сомонӣ × ${i.qty}</p>
-                    </div>
-                    <span class="font-bold">${i.price * i.qty} сомонӣ</span>
-                </div>
-            `).join('');
-            document.getElementById('cart-total').innerText = cart.reduce((sum, i) => sum + (i.price * i.qty), 0) + ' сомонӣ';
-        }
-
-        function toggleCart() {
-            const modal = document.getElementById('cart-modal');
-            modal.classList.toggle('hidden');
-        }
-
-        function checkout() {
-            if (cart.length === 0) {
-                alert('Сабади шумо холӣ аст!');
-                return;
-            }
-            alert('Фармоиши шумо бомуваққият қабул шуд! Ба наздикӣ ба шумо занг мезанем. Ташаккур!');
-            cart = [];
-            updateCart();
-            toggleCart();
-        }
-
-        async function askGemini() {
-            const prompt = document.getElementById('ai-prompt').value;
-            const respDiv = document.getElementById('ai-response');
-            if (!prompt) return;
-
-            respDiv.classList.remove('hidden');
-            respDiv.innerText = "Генерация шуда истодааст...";
-
-            // Истифодаи API Key-и шумо ки дар AI Studio гирифтед
-            const apiKey = "ИВАЗ_КУНЕД_БО_КАЛИДИ_API_ХУД"; 
-            
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: "Шумо корманди як ошхона ҳастед дар Душанбе. Ба ин савол бо забони тоҷикӣ кӯтоҳ ҷавоб диҳед: " + prompt }] }]
-                    })
-                });
-                const data = await response.json();
-                const reply = data.candidates[0].content.parts[0].text;
-                respDiv.innerText = reply;
-            } catch (error) {
-                respDiv.innerText = "Тавсияи сунъӣ омода шуд: Барои хӯроки нисфирӯзӣ Оши палов ё Қурутоб фармоиш диҳед, беҳтарин интихоб аст!";
+                alert("Бубахшед, ин таом дар айни замон омода нест!");
             }
         }
 
