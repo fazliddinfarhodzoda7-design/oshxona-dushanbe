@@ -6,67 +6,158 @@
     <title>Ошхона Душанбе</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Барои пинҳон ва намоён кардани разделҳо */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body class="bg-gray-100 text-gray-800 font-sans pb-20">
 
-    <!-- Header / Сарлавҳа -->
-    <header class="bg-emerald-600 text-white shadow-lg">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold">🍲 Ошхона Душанбе</h1>
-            <div class="flex items-center space-x-2 bg-emerald-700 px-3 py-1.5 rounded-full text-sm">
-                <span>🛒 Сабад:</span>
-                <span id="cart-count" class="font-bold">0</span>
-            </div>
+    <!-- 1. Сарлавҳа -->
+    <header class="bg-emerald-600 text-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center max-w-md">
+            <h1 class="text-lg font-bold">🍲 Ошхона Душанбе</h1>
+            <span class="text-xs bg-emerald-700 px-2 py-1 rounded-full">Моҳи нав</span>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 py-6 max-w-4xl">
-        
-        <!-- Hero Section -->
-        <div class="bg-white p-6 rounded-2xl shadow-md mb-8 text-center">
-            <h2 class="text-2xl font-bold text-gray-900 mb-2">Беҳтарин таомҳои Душанбе дар хонаи шумо!</h2>
-            <p class="text-sm text-gray-600">Босуръат ва бомазза фармоиш диҳед.</p>
+    <!-- Идоракунии Разделҳо (Main Content Container) -->
+    <main class="container mx-auto px-4 py-4 max-w-md">
+
+        <!-- РАЗДЕЛИ 1: МЕНЮ -->
+        <div id="tab-menu" class="tab-content active">
+            <h2 class="text-xl font-bold mb-3">Менюи рӯз</h2>
+            <!-- Сатри Ҷустуҷӯ мустақиман дар болои меню -->
+            <div class="mb-4">
+                <input type="text" id="search-input" placeholder="Ҷустуҷӯи таом..." oninput="filterMenu()" 
+                    class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
+            </div>
+            <div id="menu-container" class="space-y-4">
+                <!-- Таомҳо бо JavaScript таг ба таг меоянд -->
+            </div>
         </div>
 
-        <!-- Менюи таомҳо -->
-        <h3 class="text-xl font-bold mb-4 text-gray-800">Менюи рӯз</h3>
-        <div id="menu-container" class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-            <!-- Динамикӣ бо JavaScript пур карда мешавад -->
+        <!-- РАЗДЕЛИ 2: ҶУСТУҶӮ (Ё ки қисми ҷустуҷӯи зуд) -->
+        <div id="tab-search" class="tab-content">
+            <h2 class="text-xl font-bold mb-3">Ҷустуҷӯи таом</h2>
+            <p class="text-xs text-gray-500 mb-3">Таоми дилхоҳатонро бо ном нависед:</p>
+            <input type="text" id="search-page-input" placeholder="Масалан: Ош, Қурутоб..." oninput="filterSearchPage()" 
+                class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm mb-4">
+            <div id="search-results-container" class="space-y-3">
+                <p class="text-sm text-gray-400 text-center py-6">Лутфан номи таомро нависед...</p>
+            </div>
         </div>
 
-        <!-- Ҳолати фармоиш (Timeline) -->
-        <div class="bg-white p-6 rounded-2xl shadow-md mb-8">
-            <h3 class="text-lg font-bold text-gray-800 mb-4">Ҳолати фармоиш</h3>
-            <div class="relative border-l-2 border-emerald-500 ml-3 pl-6 space-y-6">
-                <div class="relative">
-                    <div class="absolute -left-[31px] top-0 bg-emerald-500 h-4 w-4 rounded-full border-4 border-white shadow"></div>
-                    <p class="text-sm font-semibold text-gray-900">Ошхона заказро қабул кард</p>
-                    <p class="text-xs text-gray-500">Фармоиш тасдиқ шуд ва ба омодасозӣ оғоз кардем</p>
+        <!-- РАЗДЕЛИ 3: САБАД -->
+        <div id="tab-cart" class="tab-content">
+            <h2 class="text-xl font-bold mb-3">Сабади фармоиш</h2>
+            <div id="cart-items-container" class="space-y-3 mb-4">
+                <p class="text-sm text-gray-500 text-center py-8">Сабади шумо ҳоло холист 🛒</p>
+            </div>
+            <div id="cart-total-section" class="bg-white p-4 rounded-2xl shadow-sm hidden">
+                <div class="flex justify-between mb-3 font-bold text-gray-900">
+                    <span>Ҷамми умумӣ:</span>
+                    <span id="total-price" class="text-emerald-600">0 сомонӣ</span>
                 </div>
-                <div class="relative">
-                    <div class="absolute -left-[31px] top-0 bg-gray-300 h-4 w-4 rounded-full border-4 border-white shadow"></div>
-                    <p class="text-sm font-semibold text-gray-700">Заказ дар роҳ аст</p>
-                    <p class="text-xs text-gray-400">Курьер фармоиши шуморо ба суроға расонида истодааст</p>
+                <button onclick="switchTab('order')" class="w-full bg-emerald-600 text-white py-2.5 rounded-xl text-sm font-medium hover:bg-emerald-700 transition">
+                    Ба расмият даровардан
+                </button>
+            </div>
+        </div>
+
+        <!-- РАЗДЕЛИ 4: ФАРМОИШ (Checkout) -->
+        <div id="tab-order" class="tab-content">
+            <h2 class="text-xl font-bold mb-3">Тасдиқи фармоиш</h2>
+            <div class="bg-white p-4 rounded-2xl shadow-sm space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">Ному насаб:</label>
+                    <input type="text" id="order-name" placeholder="Фазлиддин" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">Рақами телефон:</label>
+                    <input type="text" id="order-phone" placeholder="+992 900 00 00 00" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">Суроғаи қабул:</label>
+                    <input type="text" id="order-address" placeholder="Душанбе, кӯчаи..." class="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm">
+                </div>
+                <p class="text-[11px] text-gray-500">📍 Суроғаи ошхона: пр. Саади Шерози, 39/2 (Моҳи нав)</p>
+                <button onclick="submitOrder()" class="w-full bg-emerald-600 text-white py-2.5 rounded-xl text-sm font-medium hover:bg-emerald-700 transition mt-2">
+                    Фармоиш додан
+                </button>
+            </div>
+        </div>
+
+        <!-- РАЗДЕЛИ 5: ҲОЛАТИ ФАРМОИШ (Timeline) -->
+        <div id="tab-status" class="tab-content">
+            <h2 class="text-xl font-bold mb-3">Ҳолати фармоиш</h2>
+            <div class="bg-white p-5 rounded-2xl shadow-sm">
+                <div class="relative border-l-2 border-emerald-500 ml-3 pl-6 space-y-6">
+                    <div class="relative">
+                        <div class="absolute -left-[31px] top-0 bg-emerald-500 h-4 w-4 rounded-full border-4 border-white shadow"></div>
+                        <p class="text-sm font-semibold text-gray-900">Ошхона заказро қабул кард</p>
+                        <p class="text-xs text-gray-500">Ошпазҳо таомро омода карда истодаанд</p>
+                    </div>
+                    <div class="relative">
+                        <div class="absolute -left-[31px] top-0 bg-emerald-500 h-4 w-4 rounded-full border-4 border-white shadow"></div>
+                        <p class="text-sm font-semibold text-gray-900">Заказ дар роҳ аст 🛵🎒</p>
+                        <p class="text-xs text-gray-500">Курьер бо рӯюкзак ва скутер ба суроғаи шумо равон шуд</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Суроғаи ошхона -->
-        <div class="bg-white p-6 rounded-2xl shadow-md">
-            <div class="flex items-start space-x-3">
-                <div class="text-emerald-600 text-xl mt-1">📍</div>
+        <!-- РАЗДЕЛИ 6: ПРОФИЛ -->
+        <div id="tab-profile" class="tab-content">
+            <h2 class="text-xl font-bold mb-3">Профили ман</h2>
+            <div class="bg-white p-4 rounded-2xl shadow-sm space-y-3">
+                <div class="flex items-center space-x-3 pb-3 border-b border-gray-100">
+                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center font-bold text-lg">Ф</div>
+                    <div>
+                        <p class="font-bold text-gray-900">Фазлиддин</p>
+                        <p class="text-xs text-gray-500">+992 900 12 34 56</p>
+                    </div>
+                </div>
                 <div>
-                    <h3 class="text-base font-bold text-gray-900 mb-1">Суроғаи ошхона</h3>
-                    <p class="text-sm text-gray-700">ш. Душанбе, просп. Саади Шерози, 39/2 (район Моҳи нав)</p>
-                    <p class="text-xs text-gray-500 mt-2">⏱ Вақти корӣ: 09:00 - 19:00 | Якшанбе - Истироҳат</p>
+                    <p class="text-xs font-semibold text-gray-600 mb-1">Суроғаҳои захирашуда:</p>
+                    <p class="text-xs bg-gray-50 p-2 rounded-xl text-gray-700">📍 ш. Душанбе, маҳаллаи Моҳи нав</p>
+                </div>
+                <div>
+                    <p class="text-xs font-semibold text-gray-600 mb-1">Таърихи фармоишҳо:</p>
+                    <p class="text-xs text-gray-400">Ҳоло фармоиши пешина нест.</p>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <!-- JavaScript Логика -->
+    <!-- Поёнкашавии навигатсия (Bottom Navigation Bar бо 5-6 раздел) -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 shadow-lg z-50">
+        <div class="container mx-auto max-w-md flex justify-around items-center">
+            <button onclick="switchTab('menu')" id="btn-menu" class="flex flex-col items-center text-emerald-600 text-[11px] font-medium">
+                <span class="text-lg">📋</span> Меню
+            </button>
+            <button onclick="switchTab('search')" id="btn-search" class="flex flex-col items-center text-gray-400 text-[11px] font-medium">
+                <span class="text-lg">🔍</span> Ҷустуҷӯ
+            </button>
+            <button onclick="switchTab('cart')" id="btn-cart" class="flex flex-col items-center text-gray-400 text-[11px] font-medium relative">
+                <span class="text-lg">🛒</span> Сабад
+                <span id="cart-badge" class="absolute -top-1 right-1 bg-red-500 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
+            </button>
+            <button onclick="switchTab('order')" id="btn-order" class="flex flex-col items-center text-gray-400 text-[11px] font-medium">
+                <span class="text-lg">📦</span> Фармоиш
+            </button>
+            <button onclick="switchTab('status')" id="btn-status" class="flex flex-col items-center text-gray-400 text-[11px] font-medium">
+                <span class="text-lg">🛵</span> Ҳолат
+            </button>
+            <button onclick="switchTab('profile')" id="btn-profile" class="flex flex-col items-center text-gray-400 text-[11px] font-medium">
+                <span class="text-lg">👤</span> Профил
+            </button>
+        </div>
+    </nav>
+
+    <!-- СКРИПТХОИ ЛОГИКА -->
     <script>
         const menuItems = [
             { id: 1, name: "Оши Палов (Шаҳрӣ)", price: 45, available: true, image: "https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?w=500" },
@@ -75,51 +166,175 @@
             { id: 4, name: "Шашлики Гов", price: 25, available: true, image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500" },
             { id: 5, name: "Самбӯсаи Танӯрӣ", price: 8, available: true, image: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=500" },
             { id: 6, name: "Хом Шӯрбо", price: 22, available: true, image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500" },
-            { id: 7, name: "Шакароб", price: 35, available: true, image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500" }
+            { id: 7, name: "Шакароб", price: 35, available: true, image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500" },
+            { id: 8, name: "Ош 1×1 (Самарқандӣ)", price: 50, available: true, image: "https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?w=500" }
         ];
 
         let cart = [];
 
-        function renderMenu() {
+        // Иваз кардани разделҳо (Tabs)
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabName).classList.add('active');
+
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.classList.remove('text-emerald-600', 'font-bold');
+                btn.classList.add('text-gray-400');
+            });
+            const activeBtn = document.getElementById('btn-' + tabName);
+            if(activeBtn) {
+                activeBtn.classList.remove('text-gray-400');
+                activeBtn.classList.add('text-emerald-600', 'font-bold');
+            }
+            window.scrollTo(0, 0);
+        }
+
+        // Рендер кардани меню (таг ба таг)
+        function renderMenu(items = menuItems) {
             const container = document.getElementById('menu-container');
             container.innerHTML = '';
 
-            menuItems.forEach(item => {
+            if(items.length === 0) {
+                container.innerHTML = '<p class="text-center text-gray-400 py-4">Таом ёфт нашуд</p>';
+                return;
+            }
+
+            items.forEach(item => {
                 const statusBadge = item.available 
-                    ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 mb-2">🟢 Омода аст</span>`
-                    : `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 mb-2">🔴 Омода нест</span>`;
+                    ? `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-green-100 text-green-800">🟢 Омода аст</span>`
+                    : `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-red-100 text-red-800">🔴 Омода нест</span>`;
 
                 const card = document.createElement('div');
-                card.className = "bg-white rounded-2xl shadow-md overflow-hidden flex flex-col justify-between";
+                card.className = "bg-white rounded-2xl shadow-sm overflow-hidden flex items-center p-3 space-x-3";
                 card.innerHTML = `
-                    <div>
-                        <img src="${item.image}" alt="${item.name}" class="w-full h-40 object-cover">
-                        <div class="p-4">
-                            ${statusBadge}
-                            <h4 class="font-bold text-lg text-gray-800">${item.name}</h4>
-                            <p class="text-emerald-600 font-semibold mt-1">${item.price} сомонӣ</p>
-                        </div>
+                    <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-xl flex-shrink-0">
+                    <div class="flex-grow">
+                        ${statusBadge}
+                        <h4 class="font-bold text-sm text-gray-800 mt-1">${item.name}</h4>
+                        <p class="text-emerald-600 font-semibold text-xs mt-0.5">${item.price} сомонӣ</p>
                     </div>
-                    <div class="p-4 pt-0">
-                        <button onclick="addToCart(${item.id})" class="w-full bg-emerald-600 text-white py-2 rounded-xl text-sm font-medium hover:bg-emerald-700 transition">
-                            Илова ба сабад
-                        </button>
-                    </div>
+                    <button onclick="addToCart(${item.id})" class="bg-emerald-600 text-white w-9 h-9 rounded-xl flex items-center justify-center text-lg hover:bg-emerald-700 transition flex-shrink-0">
+                        +
+                    </button>
                 `;
                 container.appendChild(card);
             });
         }
 
+        // Ҷустуҷӯ дар меню
+        function filterMenu() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const filtered = menuItems.filter(i => i.name.toLowerCase().includes(query));
+            renderMenu(filtered);
+        }
+
+        // Ҷустуҷӯ дар раздели махсуси ҷустуҷӯ
+        function filterSearchPage() {
+            const query = document.getElementById('search-page-input').value.toLowerCase();
+            const container = document.getElementById('search-results-container');
+            container.innerHTML = '';
+
+            if(!query) {
+                container.innerHTML = '<p class="text-sm text-gray-400 text-center py-6">Лутфан номи таомро нависед...</p>';
+                return;
+            }
+
+            const filtered = menuItems.filter(i => i.name.toLowerCase().includes(query));
+            if(filtered.length === 0) {
+                container.innerHTML = '<p class="text-sm text-gray-400 text-center py-6">Ягон таом бо ин ном ёфт нашуд.</p>';
+                return;
+            }
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl shadow-sm overflow-hidden flex items-center p-3 space-x-3";
+                card.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-xl flex-shrink-0">
+                    <div class="flex-grow">
+                        <h4 class="font-bold text-sm text-gray-800">${item.name}</h4>
+                        <p class="text-emerald-600 font-semibold text-xs">${item.price} сомонӣ</p>
+                    </div>
+                    <button onclick="addToCart(${item.id}); switchTab('cart');" class="bg-emerald-600 text-white px-3 py-1.5 rounded-xl text-xs font-medium">
+                        Илова
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Илова ба сабад
         function addToCart(id) {
             const item = menuItems.find(i => i.id === id);
             if(item && item.available) {
                 cart.push(item);
-                document.getElementById('cart-count').innerText = cart.length;
+                updateCartUI();
             } else {
                 alert("Бубахшед, ин таом дар айни замон омода нест!");
             }
         }
 
+        // Навсозии сабад (таг ба таг)
+        function updateCartUI() {
+            const container = document.getElementById('cart-items-container');
+            const totalSection = document.getElementById('cart-total-section');
+            const badge = document.getElementById('cart-badge');
+
+            if(cart.length === 0) {
+                container.innerHTML = '<p class="text-sm text-gray-500 text-center py-8">Сабади шумо ҳоло холист 🛒</p>';
+                totalSection.classList.add('hidden');
+                badge.classList.add('hidden');
+                return;
+            }
+
+            badge.innerText = cart.length;
+            badge.classList.remove('hidden');
+            totalSection.classList.remove('hidden');
+
+            container.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price;
+                const row = document.createElement('div');
+                row.className = "bg-white p-3 rounded-2xl shadow-sm flex items-center justify-between";
+                row.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <img src="${item.image}" class="w-12 h-12 object-cover rounded-lg">
+                        <div>
+                            <h4 class="font-bold text-xs text-gray-800">${item.name}</h4>
+                            <p class="text-emerald-600 text-xs font-semibold">${item.price} сомонӣ</p>
+                        </div>
+                    </div>
+                    <button onclick="removeFromCart(${index})" class="text-red-500 text-xs px-2 py-1">🗑 тоза</button>
+                `;
+                container.appendChild(row);
+            });
+
+            document.getElementById('total-price').innerText = total + " сомонӣ";
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function submitOrder() {
+            const name = document.getElementById('order-name').value;
+            const phone = document.getElementById('order-phone').value;
+            const address = document.getElementById('order-address').value;
+
+            if(!name || !phone || !address) {
+                alert("Лутфан ҳамаи майдонҳоро пур кунед!");
+                return;
+            }
+
+            alert("Фармоиши шумо бомуваффақият қабул шуд! Курьер дар роҳ аст.");
+            cart = [];
+            updateCartUI();
+            switchTab('status');
+        }
+
+        // Оғози кор
         renderMenu();
     </script>
 </body>
